@@ -1,0 +1,294 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive educational website for SCAN and C-SCAN disk scheduling algorithms.">
+  <title>Disk Scheduling — SCAN &amp; C-SCAN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="Disk Scheduling home">
+        <span class="brand-mark">DS</span>
+        <span><strong>Disk Scheduling</strong><small>OPERATING SYSTEMS</small></span>
+      </a>
+      <div class="side-label">LEARN</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-page="home"><span class="nav-icon">⌂</span> Overview</button>
+        <button class="nav-link" data-page="scan"><span class="nav-icon">↔</span> SCAN algorithm</button>
+        <button class="nav-link" data-page="cscan"><span class="nav-icon">↻</span> C-SCAN algorithm</button>
+        <button class="nav-link" data-page="compare"><span class="nav-icon">▥</span> Compare algorithms</button>
+        <button class="nav-link" data-page="research"><span class="nav-icon">▤</span> Research papers</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <p>Prepared by</p>
+        <strong>Kanak Desai · Aashka Kariya</strong>
+        <small class="muted">SYCM-1 · Operating Systems</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Operating Systems <span>/</span> <strong id="crumb">Overview</strong></div>
+        <div class="topbar-right"><span class="top-chip"><span class="status-dot"></span> Learning workspace</span></div>
+      </header>
+
+      <section class="page active" id="page-home">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> OS CONCEPTS · INTERACTIVE PROJECT</div>
+            <h1>DISK SCHEDULING<br><em>SCAN &amp; C-SCAN</em></h1>
+            <p class="hero-lede">Understand how disk I/O requests are ordered, trace every head movement, and compare two classic scheduling algorithms with your own input.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" data-go="scan">Explore SCAN <span>→</span></button>
+              <button class="btn btn-secondary" data-go="cscan">Explore C-SCAN <span>→</span></button>
+            </div>
+            <div class="byline"><span class="avatar">KD</span><span class="avatar avatar-alt">AK</span><span>Created by <strong>Kanak Desai &amp; Aashka Kariya</strong></span></div>
+          </div>
+          <div class="hero-art" aria-label="Illustration of disk tracks and read write head">
+            <div class="art-topline"><span>DISK I/O FLOW</span><span class="art-live">● LIVE CONCEPT</span></div>
+            <div class="disk-visual">
+              <div class="disk-ring ring-1"></div><div class="disk-ring ring-2"></div><div class="disk-ring ring-3"></div><div class="disk-ring ring-4"></div>
+              <div class="disk-center"><span>R/W</span><small>HEAD</small></div>
+              <div class="head-arm"></div><div class="head-tip"></div>
+              <span class="track-label label-a">TRACK 018</span><span class="track-label label-b">TRACK 092</span><span class="track-label label-c">TRACK 176</span>
+            </div>
+            <div class="art-legend"><span><i class="legend-dot"></i> Requests</span><span><i class="legend-line"></i> Head path</span><span><i class="legend-ring"></i> Cylinders</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-scan">
+        <div class="page-heading"><div><div class="eyebrow">ALGORITHM 01</div><h1>SCAN <span class="heading-light">Disk Scheduling</span></h1><p>Also known as the elevator algorithm.</p></div><span class="page-index">01 / 02</span></div>
+        <div class="definition-grid">
+          <article class="content-panel"><div class="panel-kicker">HOW IT WORKS</div><h2>A sweep, then a reversal</h2><p>SCAN moves the disk head in the selected direction and services requests encountered along the way. It continues to the disk boundary, then reverses and services requests in the opposite direction.</p><ol class="steps"><li><span>1</span>Start at the current head position.</li><li><span>2</span>Service requests in the chosen direction.</li><li><span>3</span>Reach the disk boundary, then reverse.</li><li><span>4</span>Service remaining requests on the return sweep.</li></ol></article>
+          <article class="content-panel pros-panel"><div class="panel-kicker">QUICK REVIEW</div><h2>Strengths &amp; trade-offs</h2><div class="procon"><div><span class="pro-icon">+</span><p><strong>Advantages</strong><br>More orderly service than purely arrival-order scheduling; limits indefinite postponement compared with some policies.</p></div><div><span class="con-icon">−</span><p><strong>Disadvantages</strong><br>Requests just behind the head may wait for another sweep; travelling to a boundary can add movement even when no request is there.</p></div></div><div class="small-note">Actual performance depends on request distribution, head position and disk configuration.</div></article>
+        </div>
+        <div class="simulator-panel">
+          <div class="simulator-title"><div><div class="panel-kicker">INTERACTIVE LAB</div><h2>Run a SCAN simulation</h2><p>Enter your own disk queue and inspect the calculated path.</p></div><span class="live-pill"><i></i> User input</span></div>
+          <div class="input-grid">
+            <label class="field field-wide">Request queue <span>comma-separated cylinder numbers</span><input id="scanQueue" value="176, 79, 34, 60, 92, 11, 41, 114" autocomplete="off"></label>
+            <label class="field">Initial head position<input id="scanHead" type="number" min="0" value="50"></label>
+            <label class="field">Maximum cylinder<input id="scanMax" type="number" min="1" value="199"></label>
+            <label class="field">Initial direction<select id="scanDirection"><option value="right">Right →</option><option value="left">← Left</option></select></label>
+          </div>
+          <div class="form-actions"><button class="btn btn-primary" id="runScan">Run SCAN <span>↗</span></button><button class="btn btn-quiet" id="resetScan">Reset example</button><span class="input-hint" id="scanMessage" role="status"></span></div>
+          <div class="results" id="scanResults" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-cscan">
+        <div class="page-heading"><div><div class="eyebrow">ALGORITHM 02</div><h1>C-SCAN <span class="heading-light">Disk Scheduling</span></h1><p>Circular SCAN: requests are serviced in one direction.</p></div><span class="page-index">02 / 02</span></div>
+        <div class="definition-grid">
+          <article class="content-panel"><div class="panel-kicker">HOW IT WORKS</div><h2>A circular service pattern</h2><p>C-SCAN services requests only while moving in one direction. After reaching the disk boundary, the head returns to the opposite boundary without servicing requests on the return, then resumes the same direction.</p><ol class="steps"><li><span>1</span>Start at the current head position.</li><li><span>2</span>Service requests in the chosen direction.</li><li><span>3</span>Reach the boundary, then wrap to the opposite end.</li><li><span>4</span>Continue servicing in the original direction.</li></ol></article>
+          <article class="content-panel pros-panel"><div class="panel-kicker">QUICK REVIEW</div><h2>Strengths &amp; trade-offs</h2><div class="procon"><div><span class="pro-icon">+</span><p><strong>Advantages</strong><br>Services requests in one direction, which can provide more uniform waiting-time behaviour across cylinders.</p></div><div><span class="con-icon">−</span><p><strong>Disadvantages</strong><br>The wrap-around adds head travel without servicing requests; it may produce more movement than SCAN for some queues.</p></div></div><div class="small-note">C-SCAN is not always faster. Compare results for the actual request queue.</div></article>
+        </div>
+        <div class="simulator-panel">
+          <div class="simulator-title"><div><div class="panel-kicker">INTERACTIVE LAB</div><h2>Run a C-SCAN simulation</h2><p>See the circular wrap-around and each head movement.</p></div><span class="live-pill"><i></i> User input</span></div>
+          <div class="input-grid">
+            <label class="field field-wide">Request queue <span>comma-separated cylinder numbers</span><input id="cscanQueue" value="176, 79, 34, 60, 92, 11, 41, 114" autocomplete="off"></label>
+            <label class="field">Initial head position<input id="cscanHead" type="number" min="0" value="50"></label>
+            <label class="field">Maximum cylinder<input id="cscanMax" type="number" min="1" value="199"></label>
+            <label class="field">Initial direction<select id="cscanDirection"><option value="right">Right →</option><option value="left">← Left</option></select></label>
+          </div>
+          <div class="form-actions"><button class="btn btn-primary" id="runCscan">Run C-SCAN <span>↗</span></button><button class="btn btn-quiet" id="resetCscan">Reset example</button><span class="input-hint" id="cscanMessage" role="status"></span></div>
+          <div class="results" id="cscanResults" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-compare">
+        <div class="page-heading"><div><div class="eyebrow">SIDE-BY-SIDE ANALYSIS</div><h1>Compare <span class="heading-light">the algorithms</span></h1><p>Run both algorithms on the same request queue to compare head movement.</p></div></div>
+        <div class="simulator-panel">
+          <div class="simulator-title"><div><div class="panel-kicker">SHARED INPUT</div><h2>Comparison setup</h2><p>Both algorithms use these settings for a fair comparison.</p></div></div>
+          <div class="input-grid">
+            <label class="field field-wide">Request queue <span>comma-separated cylinder numbers</span><input id="compareQueue" value="176, 79, 34, 60, 92, 11, 41, 114"></label>
+            <label class="field">Initial head position<input id="compareHead" type="number" min="0" value="50"></label>
+            <label class="field">Maximum cylinder<input id="compareMax" type="number" min="1" value="199"></label>
+            <label class="field">Initial direction<select id="compareDirection"><option value="right">Right →</option><option value="left">← Left</option></select></label>
+          </div>
+          <div class="form-actions"><button class="btn btn-primary" id="runCompare">Compare algorithms <span>↗</span></button><span class="input-hint" id="compareMessage" role="status"></span></div>
+          <div id="compareResults" class="results" aria-live="polite"></div>
+        </div>
+        <div class="content-panel comparison-reasons"><div class="panel-kicker">WHICH ONE IS BETTER — AND WHY?</div><div class="reason-grid"><article><h3>Choose SCAN when…</h3><p><strong>Lower movement matters for this workload.</strong> It can avoid C-SCAN’s end-to-start wrap cost and may be more efficient for some request distributions. It services requests on both sweeps, but waiting time depends on where a request enters the sweep.</p><p class="source-line">External study: Yusuf &amp; Istiono (2020) report that SCAN can be faster for datasets with small standard deviation and variance.</p></article><article><h3>Choose C-SCAN when…</h3><p><strong>More uniform waiting time is the priority.</strong> It services requests in one direction and returns without servicing requests, giving requests a more consistent directional service pattern. The wrap-around can increase total movement.</p><p class="source-line">External study: Yusuf &amp; Istiono (2020) report more uniform waiting times for C-SCAN; the supplied research PDF also notes C-SCAN’s fairness trade-off.</p></article></div><p class="small-note">There is no universal winner. Use the live results above for your input queue, then consider both head movement and fairness. Research findings depend on the tested request sets and assumptions.</p></div>
+        <div class="callout"><div class="callout-mark">i</div><p><strong>Calculation convention:</strong> the simulator counts travel to the relevant disk boundary and C-SCAN wrap-around as head movement. Average movement per request is total head movement divided by the number of requests serviced. These are cylinder-distance measures, not milliseconds.</p></div>
+      </section>
+
+      <section class="page" id="page-research">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">LITERATURE REVIEW</div>
+            <h1>Research <span class="heading-light">papers</span></h1>
+            <p>Five research papers relevant to the study and comparison of SCAN and C-SCAN disk scheduling.</p>
+          </div>
+          <span class="page-index">5 PAPERS</span>
+        </div>
+
+        <div class="research-tools">
+          <label class="research-search">
+            <span>⌕</span>
+            <input id="paperSearch" type="search" placeholder="Search title, author, finding, or keyword…" aria-label="Search research papers">
+          </label>
+          <label class="research-filter">
+            Publication year
+            <select id="paperYear">
+              <option value="all">All years</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2024">2024</option>
+            </select>
+          </label>
+          <div class="research-actions">
+            <button class="btn btn-secondary" id="expandPapers" type="button">Expand all</button>
+            <button class="btn btn-quiet" id="collapsePapers" type="button">Collapse all</button>
+          </div>
+        </div>
+
+        <p class="research-count" id="paperCount" aria-live="polite">Showing 5 of 5 papers</p>
+
+        <div class="research-list" id="researchList">
+          <details class="research-card" data-year="2021">
+            <summary class="paper-summary">
+              <span class="research-number">01</span>
+              <span class="paper-summary-copy">
+                <span class="tag">2021 · REVIEW</span>
+                <strong>Analysis of Traditional Hard Disk Scheduling Algorithms: A Review</strong>
+                <small>Mustafa Ali Bamboat and co-authors · QRJ · 19(1), 51–58</small>
+              </span>
+              <span class="expand-mark" aria-hidden="true">+</span>
+            </summary>
+            <div class="research-body">
+              <p class="authors"><strong>Authors:</strong> Mustafa Ali Bamboat, Mansoor Ahmed Khuhro, Kamlesh Kumar, Imtiaz Ali Halepoto, Naadiya Mirbahar, Ghulam Sarfaraz Khan</p>
+              <p class="source-line"><strong>Year &amp; source:</strong> 2021; <em>Quaid-e-Awam University Research Journal of Engineering, Science and Technology</em>, Vol. 19, Issue 1, pp. 51–58.</p>
+              <h4>Problem addressed</h4>
+              <p>Traditional disk-scheduling algorithms exhibit major differences in seek latency, queue throughput, and service fairness under varying request loads, creating the need for a systematic comparative assessment.</p>
+              <h4>Proposed approach</h4>
+              <p>Compares FCFS, SSTF, SCAN, C-SCAN, LOOK, C-LOOK, OTHDSA (Optimized Traditional Hard Disk Scheduling Algorithm), and Zone-Based Disk Scheduling across multiple experimental I/O request datasets.</p>
+              <div class="finding">
+                <strong>Key findings</strong>
+                <p>OTHDSA delivered the best performance in the reported tests, with seek times of 175 and 139 units across two test runs. The paper also demonstrates that directional sweeping algorithms like SCAN can benefit from dynamic grouping of track requests.</p>
+              </div>
+              <p class="limitation"><strong>Limitations:</strong> Focuses strictly on traditional moving-head disk setups, and performance varies depending on request distribution.</p>
+              <p class="relevance"><strong>Relevance to our project:</strong> Supplies reference benchmarking datasets to test and validate the baseline SCAN and C-SCAN simulation implementations.</p>
+            </div>
+          </details>
+
+          <details class="research-card" data-year="2021">
+            <summary class="paper-summary">
+              <span class="research-number">02</span>
+              <span class="paper-summary-copy">
+                <span class="tag">2021 · COMPARATIVE STUDY</span>
+                <strong>A Comparative Analysis of Disk Scheduling Algorithms</strong>
+                <small>Bishwo Prakash Pokharel · IJRASB · 8(2), 184–195</small>
+              </span>
+              <span class="expand-mark" aria-hidden="true">+</span>
+            </summary>
+            <div class="research-body">
+              <p class="authors"><strong>Author:</strong> Bishwo Prakash Pokharel</p>
+              <p class="source-line"><strong>Year &amp; source:</strong> 2021; <em>International Journal for Research in Applied Sciences and Biotechnology</em>, Vol. 8, Issue 2, pp. 184–195.</p>
+              <h4>Problem addressed</h4>
+              <p>Minimizing total head movement and arm turnaround delay across changing I/O queues.</p>
+              <h4>Proposed approach</h4>
+              <p>Examines head traversal distances and seek-time metrics across six standard disk-scheduling policies under diverse arrival orderings.</p>
+              <div class="finding">
+                <strong>Key findings</strong>
+                <p>The supplied project notes report that C-LOOK yields the lowest seek overheads by eliminating boundary scans. They also note that while C-SCAN has higher total movement than LOOK variants, it maintains better waiting-time consistency.</p>
+              </div>
+              <p class="limitation"><strong>Limitations:</strong> Evaluation relies on simulated sequences and does not address modern solid-state architectures.</p>
+              <p class="relevance"><strong>Relevance to our project:</strong> Helps establish comparison metrics between boundary-traversing algorithms (SCAN/C-SCAN) and edge-limited algorithms, supporting the comparative dashboard.</p>
+            </div>
+          </details>
+
+          <details class="research-card" data-year="2022">
+            <summary class="paper-summary">
+              <span class="research-number">03</span>
+              <span class="paper-summary-copy">
+                <span class="tag">2022 · PROPOSED VARIATION</span>
+                <strong>Pre-Reset the R/W Head to Zero Track in SCAN and C-SCAN Disk Scheduling Algorithm</strong>
+                <small>Ahmed Mohamed Malallah Al-Suffar · IJSER · 1(1), 103–108</small>
+              </span>
+              <span class="expand-mark" aria-hidden="true">+</span>
+            </summary>
+            <div class="research-body">
+              <p class="authors"><strong>Author:</strong> Assist. Prof. Ahmed Mohamed Malallah Al-Suffar</p>
+              <p class="source-line"><strong>Year &amp; source:</strong> 2022; <em>Al-Iraqia Journal for Scientific Engineering Research</em>, Vol. 1, Issue 1, pp. 103–108.</p>
+              <h4>Problem addressed</h4>
+              <p>Traditional SCAN and C-SCAN algorithms can cause unnecessary head movement and non-uniform response times when sweeping to the disk edge without pending requests.</p>
+              <h4>Proposed approach</h4>
+              <p>Introduces a pre-reset mechanism that automatically moves the read/write head to track 0 after servicing current requests, standardizing the forward sweep.</p>
+              <div class="finding">
+                <strong>Key findings</strong>
+                <p>The supplied project material reports 183 seek units compared with 253 for SCAN and 188 for C-SCAN on the tested request set, with higher throughput and more predictable waiting times.</p>
+              </div>
+              <p class="limitation"><strong>Limitations:</strong> Tested primarily on moving-head models under fixed request patterns.</p>
+              <p class="relevance"><strong>Relevance to our project:</strong> A candidate approach for Stage 3 because its logic extends SCAN and C-SCAN and could be explored in the interactive simulator.</p>
+            </div>
+          </details>
+
+          <details class="research-card" data-year="2024">
+            <summary class="paper-summary">
+              <span class="research-number">04</span>
+              <span class="paper-summary-copy">
+                <span class="tag">2024 · NEW ALGORITHM</span>
+                <strong>Proposing Disk Scheduling Algorithm to Enhance the Efficiency of Disk Performance</strong>
+                <small>G. Elnaas and M. Sullabi · IJEIT · 12(1), 111–119</small>
+              </span>
+              <span class="expand-mark" aria-hidden="true">+</span>
+            </summary>
+            <div class="research-body">
+              <p class="authors"><strong>Authors:</strong> G. Elnaas and M. Sullabi</p>
+              <p class="source-line"><strong>Year &amp; source:</strong> 2024; <em>The International Journal of Engineering &amp; Information Technology (IJEIT)</em>, Vol. 12, No. 1, pp. 111–119.</p>
+              <h4>Problem addressed</h4>
+              <p>Mechanical seek delays continue to bottleneck overall processing performance because of the speed gap between high-speed CPUs and mechanical storage.</p>
+              <h4>Proposed approach</h4>
+              <p>Proposes an algorithm that organizes requests and selects head paths using nearest-neighbouring tracks alongside boundary checks.</p>
+              <div class="finding">
+                <strong>Key findings</strong>
+                <p>In Sample I, the proposed method achieved 177 total head movements and 22.125 ms average seek time, compared with SCAN (236 movements / 29.5 ms) and C-SCAN (382 movements / 47.75 ms).</p>
+              </div>
+              <p class="limitation"><strong>Limitations:</strong> Validated using three discrete sample queues.</p>
+              <p class="relevance"><strong>Relevance to our project:</strong> Supplies direct benchmarks for our sample request queue (176, 79, 34, 60, 92, 11, 41, 114).</p>
+            </div>
+          </details>
+
+          <details class="research-card" data-year="2024">
+            <summary class="paper-summary">
+              <span class="research-number">05</span>
+              <span class="paper-summary-copy">
+                <span class="tag">2024 · UNIVERSAL APPROACH</span>
+                <strong>Optimized Universal Disk Scheduling Algorithm</strong>
+                <small>Amar Ranjan Dash and co-authors · Journal of The Institution of Engineers (India): Series B, Springer</small>
+              </span>
+              <span class="expand-mark" aria-hidden="true">+</span>
+            </summary>
+            <div class="research-body">
+              <p class="authors"><strong>Authors:</strong> Amar Ranjan Dash, Baishnobi Dash, Sandipta Kumar Sahu, Neha Kumari Sahu, Srinibash Panda</p>
+              <p class="source-line"><strong>Year &amp; source:</strong> 2024; <em>Journal of The Institution of Engineers (India): Series B</em>, Springer.</p>
+              <h4>Problem addressed</h4>
+              <p>Standard scheduling approaches consider only single-track seek time, overlooking rotational latency, platter-selection overhead, and multi-disk/RAID configurations.</p>
+              <h4>Proposed approach</h4>
+              <p>Implements a universal scheduling method designed to optimize composite access costs across varied disk geometries, partitions, and RAID systems.</p>
+              <div class="finding">
+                <strong>Key findings</strong>
+                <p>The approach aims to lower overall access overhead by managing multi-platter and multi-disk operations simultaneously.</p>
+              </div>
+              <p class="limitation"><strong>Limitations:</strong> Focuses on multi-dimensional hardware parameters, making it more complex than single-surface SCAN/C-SCAN comparisons.</p>
+              <p class="relevance"><strong>Relevance to our project:</strong> Broadens the scope beyond one-dimensional cylinder paths to enterprise disk arrays.</p>
+            </div>
+          </details>
+
+          <div class="no-papers" id="noPapers" hidden>No papers match your search. Try another keyword or year.</div>
+        </div>
+      </section>
+
+      <footer class="footer"><span>DISK SCHEDULING · SCAN &amp; C-SCAN</span><span>Made by <strong>Kanak Desai &amp; Aashka Kariya</strong></span></footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
